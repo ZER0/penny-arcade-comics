@@ -1,0 +1,24 @@
+#penny-arcade-addon-comics {
+  position: fixed;
+  top: 50%;
+  left : 50%;
+  width: 800px;
+  height: 400px;
+  z-index: 999;
+  margin: -200px 0 0 -400px;
+  background-color: rgba(0, 0, 0, 0.75);
+  background-repeat: no-repeat;
+  box-shadow: 0 0 15px 5px #000;
+}
+
+@media (orientation:portrait) {
+  #penny-arcade-addon-comics {
+    display: none;
+  }
+}
+
+@media (orientation:landscape) {
+  #penny-arcade-addon-comics {
+    display: block;
+  }
+}
