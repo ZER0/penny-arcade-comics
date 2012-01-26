@@ -8,24 +8,35 @@ function addStyleSheet(url) {
   document.documentElement.appendChild(link);
 }
 
-self.port.on("comics-url", function(url) {
+function addComics() {
+  var imageMatches = this.responseText.match(/<img src="([^"]+)"/i),
+      url = imageMatches && imageMatches[1];
+
+  if (!url) {
+    console.exception("Something went wrong");
+    return;
+  }
+
+  console.log("comics image URL:", url);
+
   var comicsImage = document.createElement("div");
 
   comicsImage.id = "penny-arcade-addon-comics";
   comicsImage.style.backgroundImage = "url(" + url + ")";
 
   document.body.appendChild(comicsImage);
-});
+}
 
 self.port.on("init", function init(cssURL) {
   // We're not interested in frames
   if (window.frameElement) return;
 
-  console.log("content script, init");
-
   addStyleSheet(cssURL);
 
   var comicsPageURL = document.querySelector(".btnComic").href;
+  var http = new XMLHttpRequest();
 
-  self.port.emit("initialized", comicsPageURL);
+  http.open("GET", comicsPageURL, true);
+  http.onload = addComics;
+  http.send();
 });
